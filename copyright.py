@@ -16,7 +16,7 @@ LOG_ID = int(os.environ.get("LOGGER_ID", "-1001916618183"))
 
 API_ID = "25450075"
 API_HASH = "278e22b00d6dd565c837405eda49e6f2"
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "6985864893:AAHoVglT07dVjOQNNQ6b-G28M4qG_JqNG_c")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "7192846605:AAGGYCRUhjV4xdJ7DQsVPu7JSo53ej5jWDE")
 
 
 # --------------------------------------------------------------------------------------
