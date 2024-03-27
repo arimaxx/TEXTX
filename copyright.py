@@ -95,11 +95,11 @@ async def delete_links_and_keywords(client, message):
 
 @app.on_edited_message(filters.group & ~filters.me)
 async def delete_edited_messages(client, edited_message):
-  try:
-    if not edited_message.reactions:  # Check if there are any reactions on the edited message
-      await edited_message.delete()
-  except Exception as e:
-    print(f"Error deleting edited message: {e}")
+    if not edited_message.reactions:
+        try:
+            await edited_message.delete()
+        except Exception as e:
+            print(f"Error deleting edited message: {e}")
 
 # -------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------
