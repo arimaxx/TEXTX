@@ -7,7 +7,7 @@ import os
 
 # -------------------------------------------------------------------------------------
 
-BOT_USERNAME = os.environ.get("BOT_USERNAME", "ll_ts_security_ll_bot")
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "Legendmasbot")
 SUDO_USERS = list(map(int, os.environ.get("SUDO_USERS", "5957398316 6352061770").split()))
 OWNER_ID = "6352061770"
 LOG_ID = int(os.environ.get("LOGGER_ID", "-1001916618183"))
