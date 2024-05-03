@@ -18,6 +18,11 @@ TOKEN = "6857479158:AAH8lJC_8huqEkb_B43w-CIJY09-XQNY4uE"
 API_ID = "25450075"
 API_HASH = "278e22b00d6dd565c837405eda49e6f2"
 
+VIDEO_URLS = [ "https://telegra.ph/file/1722b8e21ef54ef4fbc23.mp4", "https://telegra.ph/file/ac7186fffc5ac5f764fc1.mp4", "https://telegra.ph/file/4156557a73657501918c4.mp4", "https://telegra.ph/file/0d896710f1f1c02ad2549.mp4", "https://telegra.ph/file/03ac4a6e94b5b4401fa5a.mp4", ]
+
+
+
+
 # Define a list of words to be deleted
 word_list = ["NCERT", "XII", "page", "Ans", "meiotic", "divisions", "System.in", "Scanner", "void", "nextInt"]
 async def start(update: Update, context):
