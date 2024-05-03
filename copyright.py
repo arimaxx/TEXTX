@@ -1,46 +1,26 @@
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import asyncio
-import random
-import os
 
-# -------------------------------------------------------------------------------------
+import os
+import random
+from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telethon import TelegramClient
+import asyncio
+
+
 
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "Legendmasbot")
 SUDO_USERS = list(map(int, os.environ.get("SUDO_USERS", "5957398316 6352061770").split()))
 OWNER_ID = "6352061770"
 LOG_ID = int(os.environ.get("LOGGER_ID", "-1001916618183"))
-
+TOKEN = "6857479158:AAH8lJC_8huqEkb_B43w-CIJY09-XQNY4uE"
 # -------------------------------------------------------------------------------------
 
 API_ID = "25450075"
 API_HASH = "278e22b00d6dd565c837405eda49e6f2"
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "7192846605:AAGGYCRUhjV4xdJ7DQsVPu7JSo53ej5jWDE")
 
+# Define a list of words to be deleted
+word_list = ["NCERT", "XII", "page", "Ans", "meiotic", "divisions", "System.in", "Scanner", "void", "nextInt"]
 
-# --------------------------------------------------------------------------------------
-
-SUPPORT_GROUP_USERNAME = "three_stars_ki_duniya"
-SOURCE_CODE_CHANNEL_USERNAME = "ll_about_ari_ll"
-
-# --------------------------------------------------------------------------------------
-
-app = Client('my_bot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
-
-# ----------------------------------------------------------------------------------------
-
-VIDEO_URLS = [
-    "https://telegra.ph/file/1722b8e21ef54ef4fbc23.mp4",
-    "https://telegra.ph/file/ac7186fffc5ac5f764fc1.mp4",
-    "https://telegra.ph/file/4156557a73657501918c4.mp4",
-    "https://telegra.ph/file/0d896710f1f1c02ad2549.mp4",
-    "https://telegra.ph/file/03ac4a6e94b5b4401fa5a.mp4",
-]
-
-# -------------------------------------------------------------------------------------
-
-@app.on_message(filters.private & filters.command("start"))
 async def start_private_chat(client, message):
     # Choose a random video URL
     video_url = random.choice(VIDEO_URLS)
@@ -62,64 +42,35 @@ async def start_private_chat(client, message):
         video=video_url,
         caption="<b>нυι</b> тнιѕ ιѕ 「🛡 ᴄᴏᴘʏʀɪɢʜᴛ ʜᴀɴᴅʟᴇʀ 🛡」❖ 💖\n"
                 "♡━━━━━━━━ ᴀʀɪ ━━━━━━━♡\n"
-                "ᴏᴜʀ ᴍɪssɪᴏɴ ɪs ᴛᴏ ᴇɴsᴜʀᴇ ᴀ sᴇᴄᴜʀᴇ ᴀɴᴅ ᴘʟᴇᴀsᴇɴᴛ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ғᴏʀ ᴇᴠᴇʀʏᴏɴᴇ.\n "
+                "ᴏᴜʀ ᴍɪssɪᴏɴ ɪs ᴛᴏ ᴇɴsᴜʀᴇ ᴀ  sᴇᴄᴜʀᴇ ᴀɴᴅ ᴘʟᴇᴀsᴇɴᴛ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ғᴏʀ ᴇᴠᴇʀʏᴏɴᴇ.\n "
                 "ғʀᴏᴍ ᴄᴏᴘʏʀɪɢʜᴛ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴛᴏ ᴍᴀɴᴛᴀɪɴɪɴɢ ᴅᴇᴄᴏʀᴜᴍ, ᴡᴇ'ᴠᴇ ɢᴏᴛ ɪᴛ ᴄᴏᴠᴇʀᴇᴅ.\n"
                 "ғᴇᴇʟ ғʀᴇᴇ ᴛᴏ ʀᴇᴘᴏʀᴛ ᴀɴʏ ᴄᴏɴᴄᴇʀɴs, ᴀɴᴅ ʟᴇᴛ's ᴡᴏʀᴋ ᴛᴏɢᴇᴛʜᴇʀ ᴛᴏ ᴍᴀᴋᴇ ᴛʜɪs ᴄᴏᴍᴍᴜɴɪᴛʏ ᴛʜʀɪᴠᴇ\n"
-                "❖ɴᴏ ᴄᴏᴍᴍᴀɴᴅ ᴊᴜꜱᴛ ᴀᴅᴅ ᴛʜɪꜱ ʙᴏᴛ ᴇᴠᴇʀʏᴛʜɪɴɢ ɪѕ ᴀᴜᴛᴏ❖\n"
+                "❖ɴᴏ ᴄᴏᴍᴍᴀɴᴅ ᴊᴜꜱᴛ ᴀᴅᴅ ᴛʜɪs ʙᴏᴛ ᴇᴠᴇʀʏᴛʜɪɴɢ ɪs ᴀᴜᴛᴏ❖\n"
                 "♡━━━━━━━━ ᴀʀɪ ━━━━━━━♡\n\n"
                 "ᴍᴀᴅᴇ ᴡɪᴛʜ 🖤 ʙʏ <a href=\"https://t.me/lll_notookk_lll\">||ᴀʀɪ||❣️</a>",
         reply_markup=keyboard
     )
-    accha = await message.reply_text(
-        text="__ᴅιиg ᴅιиg ꨄ︎ ѕтαятιиg..__"
-    )
-    await asyncio.sleep(0.2)
-    await accha.edit("__ᴅιиg ᴅιиg ꨄ sтαятιиg.....__")
-    await asyncio.sleep(0.2)
-    await accha.edit("__ᴅιиg ᴅιиg ꨄ︎ sтαятιиg..__")
-    await asyncio.sleep(0.2)
-    await accha.delete()
 
+def delete_messages(update: Update, context):
+    message_text = update.message.text.lower()
 
-# -------------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------------
+    # Check if the message is edited, longer than 1000 characters, or contains any word from the word list
+    if update.edited_message or len(update.message.text) > 1000 or any(word in message_text for word in word_list):
+        # Mention the user whose message is deleted
+        user_mention = f"@{update.message.from_user.username}" if update.message.from_user.username else update.message.from_user.first_name
+        context.bot.send_message(chat_id=update.message.chat_id, text=f"{user_mention}'s message was deleted.")
+        context.bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
 
-@app.on_message(filters.group & filters.text & ~filters.me)
-async def delete_links_and_keywords(client, message):
-    keywords = ["NCERT", "XII", "page", "Ans", "meiotic", "divisions", "System.in", "Scanner", "void", "nextInt"]
+def main():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
 
-    if any(keyword.lower() in message.text.lower() for keyword in keywords) or any(link in message.text.lower() for link in ["http", "https", "www."]):
-        await message.delete()
+    dp.add_handler(CommandHandler("start", start_private_chat))
+    dp.add_handler(MessageHandler(Filters.all, delete_messages))
 
-# -------------------------------------------------------------------------------------
-
-@app.on_edited_message(filters.group & ~filters.me)
-async def delete_edited_messages(client, edited_message):
-    if edited_message.reactions is not None and not any(reaction.emoji in ('👍', '👎') for reaction in edited_message.reactions):
-        try:
-            await edited_message.delete()
-        except Exception as e:
-            print(f"Error deleting edited message: {e}")
-            print(f"Error deleting edited message: {e}")
-# -------------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------------
-
-@app.on_message(filters.group & filters.text & ~filters.me)
-async def delete_long_messages(client, message):
-    if len(message.text.split()) >= 10:
-        await message.delete()
-
-# -----------------------------------------------------------------------------------
-# -----------------------------------------------------------------------------------
-
-# -----------------------------------------------------------------------------------
-
-@app.on_message(filters.private)
-async def delete_long_messages(client, message):
-    if message.text and len(message.text) > 15:
-        await message.delete()
-# -----------------------------------------------------------------------------------
-
+    updater.start_polling()
+    updater.idle()
+    
 print(f"""╔═════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱════❍⊱❁۪۪
 ║┏━━━━━━➣
 ║┣⪼ ᴏᴡɴᴇʀ :- @lll_notookk_lll
