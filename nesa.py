@@ -6,7 +6,8 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telethon import TelegramClient
 import asyncio
 
-
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "Legendmasbot")
 SUDO_USERS = list(map(int, os.environ.get("SUDO_USERS", "5957398316 6352061770").split()))
@@ -26,13 +27,13 @@ VIDEO_URLS = [
     "https://telegra.ph/file/0d896710f1f1c02ad2549.mp4",
     "https://telegra.ph/file/03ac4a6e94b5b4401fa5a.mp4"
 ]
-
 word_list = ["NCERT", "XII", "page", "Ans", "meiotic", "divisions", "System.in", "Scanner", "void", "nextInt"]
 
+# Lock file path
+lock_file_path = "bot.lock"
 
 async def start(update: Update, context):
-    await start_private_chat(context.bot, update.message)  
-
+    await start_private_chat(context.bot, update.message)
 
 async def start_private_chat(bot, message):
     video_url = random.choice(VIDEO_URLS)
@@ -63,37 +64,46 @@ async def start_private_chat(bot, message):
         reply_markup=keyboard
     )
 
-
 def delete_messages(update: Update, context):
     message_text = update.message.text.lower()
 
-    # Check if the message is edited, longer than 1000 characters, or contains any word from the word list
     if update.edited_message or len(update.message.text) > 1000 or any(word in message_text for word in word_list):
-        # Mention the user whose message is deleted
         user_mention = f"@{update.message.from_user.username}" if update.message.from_user.username else update.message.from_user.first_name
         context.bot.send_message(chat_id=update.message.chat_id, text=f"{user_mention}'s message was deleted.")
         context.bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
 
-
 def main():
+    # Check if lock file exists, exit if it does
+    if os.path.exists(lock_file_path):
+        logger.warning("Another instance is already running. Exiting...")
+        return
+
+    # Create lock file
+    with open(lock_file_path, "w") as lock_file:
+        lock_file.write("locked")
+
+    # Initialize updater and dispatcher
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
 
+    # Register handlers
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(MessageHandler(Filters.all, delete_messages))
 
+    # Start polling
     updater.start_polling()
+
+    # Idle
     updater.idle()
 
+    # Remove lock file after idle
+    os.remove(lock_file_path)
 
 # Example start for Telethon
 async def start_telethon():
     # Your Telethon code here
     pass
 
-
 if __name__ == '__main__':
-    # Start the Telethon loop in the background
     asyncio.run(start_telethon())
-    # Start the Telegram bot
     main()
