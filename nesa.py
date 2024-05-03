@@ -20,9 +20,11 @@ API_HASH = "278e22b00d6dd565c837405eda49e6f2"
 
 # Define a list of words to be deleted
 word_list = ["NCERT", "XII", "page", "Ans", "meiotic", "divisions", "System.in", "Scanner", "void", "nextInt"]
+async def start(update: Update, context):
+    await start_private_chat()  # Await the async function
 
-async def start_private_chat(client, message):
-    # Choose a random video URL
+# Add this modified start command handler to the dispatcher
+dp.add_handler(CommandHandler("start", start))
     video_url = random.choice(VIDEO_URLS)
 
     keyboard = InlineKeyboardMarkup(
@@ -70,27 +72,14 @@ def main():
 
     updater.start_polling()
     updater.idle()
-    
-print(f"""╔═════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱════❍⊱❁۪۪
-║┏━━━━━━➣
-║┣⪼ ᴏᴡɴᴇʀ :- @lll_notookk_lll
-║┣⪼ ᴘᴀʀᴛ ᴏғ :- @ll_about_ari_ll
-║┗━━━━━━➣
-║╔═════ஜ۩۞۩ஜ════╗
-║   ᴍᴇʀᴇ ʟɪʏᴇ ᴍᴇʀɪ ᴅᴜɴɪʏᴀ ʜᴏ ᴛᴍ..♥️ ᴍᴀɪɴᴇ
-║
-║ ᴊᴏ ᴍᴀɴɢɪ ᴡᴏ ᴅᴜᴀ ʜᴏ ᴛᴍ💞 ᴍᴇʀɪ ɴᴀᴢᴀʀ
-║
-║ ᴋɪ ᴛᴀʟᴀꜱʜ ʜᴏ ᴛᴍ🥰 ᴍᴀɪɴᴇ ᴊᴏ ᴄʜᴀʜᴀ ᴡᴏ
-║
-║ ᴘʏᴀʀ ʜᴏ ᴛᴍ😍 ᴍᴇʀᴇ ɪɴᴛᴇᴢᴀᴀʀ ᴋɪ ʀᴀʜᴀᴛ
-║
-║ ʜᴏ ᴛᴍ✨ ᴍᴇʀᴇ ᴅɪʟ ᴋɪ ᴄʜᴀʜᴀᴛ ʜᴏ ᴛᴍ💖
-║
-║ ᴛᴜᴍ ʜᴏ ᴛᴏ ᴍᴜᴊʜᴇ ᴏʀ ᴋᴜᴄʜ ɴʜɪ ᴄʜᴀʜɪʏᴇ❣️ 
-║ ᴋᴀɪꜱᴇ ᴋᴀʜᴜɴ ꜱɪʀꜰ  ᴘʏᴀʀ ɴᴀʜɪ 🥀 ᴍᴇʀɪ ᴊᴀᴀɴ ʜᴏ ᴛᴍ💥
-║╚═════ஜ۩۞۩ஜ════╝
-╚═════════════════❍⊱❁ """)
+
+# Example start for Telethon
+async def start_telethon():
+    # Your Telethon code here
+    pass
 
 if __name__ == '__main__':
+    # Start the Telethon loop in the background
+    asyncio.run(start_telethon())
+    # Start the Telegram bot
     main()
