@@ -1,1 +1,1 @@
-worker: python -m nesa.py
+worker: python -m nesa
