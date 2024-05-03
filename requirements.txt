@@ -3,4 +3,4 @@ pyrogram==2.0.106
 requests
 tgcrypto==1.2.5
 python-telegram-bot==13.7
-urllib3>=1.25.11,<1.26
+urllib3==1.26.8
