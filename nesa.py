@@ -1,7 +1,6 @@
-import os
+
+from telethon import TelegramClient, events, Button
 import random
-from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 import asyncio
 import logging
 
@@ -26,74 +25,38 @@ VIDEO_URLS = [
 ]
 word_list = ["NCERT", "XII", "page", "Ans", "meiotic", "divisions", "System.in", "Scanner", "void", "nextInt"]
 
-lock_file_path = "bot.lock"
-
-async def start_private_chat(bot, message):
+async def start_private_chat(event):
     video_url = random.choice(VIDEO_URLS)
 
-    keyboard = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("❤️‍🔥ᴀᴅᴅ ᴍᴇ❤️‍🔥", url=f"t.me/{BOT_USERNAME}?startgroup=true"),
-                InlineKeyboardButton("💫ꜱᴜᴘᴘᴏʀᴛ💫", url=f"t.me/{BOT_USERNAME}"),
-            ],
-            [
-                InlineKeyboardButton("💖ꜱᴏᴜʀᴄᴇ💖", url=f"t.me/{BOT_USERNAME}"),
-            ]
-        ]
+    await event.respond(
+        "<b>нυι</b> тнιѕ ιѕ 「🛡 ᴄᴏᴘʏʀɪɢʜᴛ ʜᴀɴᴅʟᴇʀ 🛡」❖ 💖\n"
+        "♡━━━━━━━━ ᴀʀɪ ━━━━━━━♡\n"
+        "ᴏᴜʀ ᴍɪssɪᴏɴ ɪs ᴛᴏ ᴇɴsᴜʀᴇ ᴀ  sᴇᴄᴜʀᴇ ᴀɴᴅ ᴘʟᴇᴀsᴇɴᴛ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ғᴏʀ ᴇᴠᴇʀʏᴏɴᴇ.\n "
+        "ғʀᴏᴍ ᴄᴏᴘʏʀɪɢʜᴛ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴛᴏ ᴍᴀɴᴛᴀɪɴɪɴɢ ᴅᴇᴄᴏʀᴜᴍ, ᴡᴇ'ᴠᴇ ɢᴏᴛ ɪᴛ ᴄᴏᴠᴇʀᴇᴅ.\n"
+        "ғᴇᴇʟ ғʀᴇᴇ ᴛᴏ ʀᴇᴘᴏʀᴛ ᴀɴʏ ᴄᴏɴᴄᴇʀɴs, ᴀɴᴅ ʟᴇᴛ's ᴡᴏʀᴋ ᴛᴏɢᴇᴛʜᴇʀ ᴛᴏ ᴍᴀᴋᴇ ᴛʜɪs ᴄᴏᴍᴍᴜɴɪᴛʏ ᴛʜʀɪᴠᴇ\n"
+        "❖ɴᴏ ᴄᴏᴍᴍᴀɴᴅ ᴊᴜꜱᴛ ᴀᴅᴅ ᴛʜɪs ʙᴏᴛ ᴇᴠᴇʀʏᴛʜɪɴɢ ɪs ᴀᴜᴛᴏ❖\n"
+        "♡━━━━━━━━ ᴀʀɪ ━━━━━━━♡\n\n"
+        "ᴍᴀᴅᴇ ᴡɪᴛʜ 🖤 ʙʏ [||ᴀʀɪ||❣️](https://t.me/lll_notookk_lll)",
+        buttons=[
+            [Button.url("❤️‍🔥ᴀᴅᴅ ᴍᴇ❤️‍🔥", f"https://t.me/{BOT_USERNAME}?startgroup=true"),
+             Button.url("💫ꜱᴜᴘᴘᴏʀᴛ💫", f"https://t.me/{BOT_USERNAME}")],
+            [Button.url("💖ꜱᴏᴜʀᴄᴇ💖", f"https://t.me/{BOT_USERNAME}")]
+        ],
+        parse_mode="html"
     )
 
-    await bot.send_video(
-        chat_id=message.chat.id,
-        video=video_url,
-        caption="<b>нυι</b> тнιѕ ιѕ 「🛡 ᴄᴏᴘʏʀɪɢʜᴛ ʜᴀɴᴅʟᴇʀ 🛡」❖ 💖\n"
-                "♡━━━━━━━━ ᴀʀɪ ━━━━━━━♡\n"
-                "ᴏᴜʀ ᴍɪssɪᴏɴ ɪs ᴛᴏ ᴇɴsᴜʀᴇ ᴀ  sᴇᴄᴜʀᴇ ᴀɴᴅ ᴘʟᴇᴀsᴇɴᴛ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ғᴏʀ ᴇᴠᴇʀʏᴏɴᴇ.\n "
-                "ғʀᴏᴍ ᴄᴏᴘʏʀɪɢʜᴛ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴛᴏ ᴍᴀɴᴛᴀɪɴɪɴɢ ᴅᴇᴄᴏʀᴜᴍ, ᴡᴇ'ᴠᴇ ɢᴏᴛ ɪᴛ ᴄᴏᴠᴇʀᴇᴅ.\n"
-                "ғᴇᴇʟ ғʀᴇᴇ ᴛᴏ ʀᴇᴘᴏʀᴛ ᴀɴʏ ᴄᴏɴᴄᴇʀɴs, ᴀɴᴅ ʟᴇᴛ's ᴡᴏʀᴋ ᴛᴏɢᴇᴛʜᴇʀ ᴛᴏ ᴍᴀᴋᴇ ᴛʜɪs ᴄᴏᴍᴍᴜɴɪᴛʏ ᴛʜʀɪᴠᴇ\n"
-                "❖ɴᴏ ᴄᴏᴍᴍᴀɴᴅ ᴊᴜꜱᴛ ᴀᴅᴅ ᴛʜɪs ʙᴏᴛ ᴇᴠᴇʀʏᴛʜɪɴɢ ɪs ᴀᴜᴛᴏ❖\n"
-                "♡━━━━━━━━ ᴀʀɪ ━━━━━━━♡\n\n"
-                "ᴍᴀᴅᴇ ᴡɪᴛʜ 🖤 ʙʏ <a href=\"https://t.me/lll_notookk_lll\">||ᴀʀɪ||❣️</a>",
-        reply_markup=keyboard,
-        parse_mode="HTML"
-    )
+async def delete_messages(event):
+    message_text = event.raw_text.lower()
 
-async def start(update: Update, context):
-    await start_private_chat(context.bot, update.message)
+    if len(event.raw_text) > 1000 or any(word in message_text for word in word_list):
+        await event.respond(f"{event.sender.username}'s message was deleted.")
+        await event.delete()
 
-async def delete_messages(update: Update, context):
-    message_text = update.message.text.lower()
-
-    if update.edited_message or len(update.message.text) > 1000 or any(word in message_text for word in word_list):
-        user_mention = f"@{update.message.from_user.username}" if update.message.from_user.username else update.message.from_user.first_name
-        context.bot.send_message(chat_id=update.message.chat_id, text=f"{user_mention}'s message was deleted.")
-        context.bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
-
-def main():
-    if os.path.exists(lock_file_path):
-        logger.warning("Another instance is already running. Exiting...")
-        return
-
-    with open(lock_file_path, "w") as lock_file:
-        lock_file.write("locked")
-
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
-
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(MessageHandler(Filters.all, delete_messages))
-
-    updater.start_polling()
-
-    updater.idle()
-
-    os.remove(lock_file_path)
-
-# Example start for Telethon
-async def start_telethon():
-    # Your Telethon code here
-    pass
+async def main():
+    async with TelegramClient('session_name', API_ID, API_HASH) as client:
+        client.add_event_handler(start_private_chat, events.NewMessage(pattern='/start'))
+        client.add_event_handler(delete_messages, events.NewMessage())
+        await client.run_until_disconnected()
 
 if __name__ == '__main__':
-    asyncio.run(start_telethon())
-    main()
+    asyncio.run(main())
