@@ -1,4 +1,4 @@
-
+import os
 from telethon import TelegramClient, events, Button
 import random
 import asyncio
